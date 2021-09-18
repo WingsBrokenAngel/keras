@@ -66,12 +66,12 @@ def normalize_tuple(value, n, name, cmp=None):
     ValueError: If something else than an int/long or iterable thereof was
       passed.
   """
+  error_msg = (f'The `{name}` argument must be a tuple of {n} '
+               f'integers. Received: {value}')
+
   if isinstance(value, int):
     value_tuple = (value,) * n
   else:
-    error_msg = (f'The `{name}` argument must be a tuple of {n} '
-                 f'integers. Received: {value}')
-
     try:
       value_tuple = tuple(value)
     except TypeError:
@@ -88,10 +88,12 @@ def normalize_tuple(value, n, name, cmp=None):
 
   unqualified_values = [v for v in value_tuple if cmp and cmp(v)]
   print(unqualified_values, value_tuple)
+
   if len(unqualified_values) > 0:
     error_msg += (f' including {unqualified_values}'
                   f' that does not satisfy the requirement.')
     raise ValueError(error_msg)
+
   return value_tuple
 
 
