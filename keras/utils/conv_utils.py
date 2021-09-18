@@ -67,7 +67,7 @@ def normalize_tuple(value, n, name, cmp=None):
       passed.
   """
   if isinstance(value, int):
-    return (value,) * n
+    value_tuple = (value,) * n
   else:
     error_msg = (f'The `{name}` argument must be a tuple of {n} '
                  f'integers. Received: {value}')
@@ -86,13 +86,13 @@ def normalize_tuple(value, n, name, cmp=None):
                       f'type {type(single_value)}')
         raise ValueError(error_msg)
 
-    unqualified_values = [v for v in value_tuple if cmp and cmp(v)]
-    print(unqualified_values, value_tuple)
-    if len(unqualified_values) > 0:
-      error_msg += (f' including {unqualified_values}'
-                    f' that does not satisfy the requirement.')
-      raise ValueError(error_msg)
-    return value_tuple
+  unqualified_values = [v for v in value_tuple if cmp and cmp(v)]
+  print(unqualified_values, value_tuple)
+  if len(unqualified_values) > 0:
+    error_msg += (f' including {unqualified_values}'
+                  f' that does not satisfy the requirement.')
+    raise ValueError(error_msg)
+  return value_tuple
 
 
 def conv_output_length(input_length, filter_size, padding, stride, dilation=1):
